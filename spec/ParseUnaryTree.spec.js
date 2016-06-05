@@ -36,8 +36,9 @@ describe("ParseUnaryTree", function(){
 					expect(symbol).toEqual("test symbol")
 					return found("test left string", "test right string", 181)
 				})
-				ParseTree.and.callFake(function(str){
+				ParseTree.and.callFake(function(str, starts){
 					expect(str).toEqual("test right string")
+                    expect(starts).toEqual(181)
 					return "test right expression"
 				})
 				result = ParseUnaryTree("test string", 35, "test symbol")
@@ -56,12 +57,10 @@ describe("ParseUnaryTree", function(){
 					expect(symbol).toEqual("test symbol")
 					return found("test left string", "test right string", 181)
 				})
-				ParseTree.and.callFake(function(str){
-					switch(str){
-						case "test left string": return "test left expression"
-						case "test right string": return null
-						default: fail("unexpected ParseTree of \"" + str + "\"")
-					}
+				ParseTree.and.callFake(function(str, starts){
+					expect(str).toEqual("test right string")
+                    expect(starts).toEqual(181)
+                    return "test right expression"
 				})
 				result = ParseUnaryTree("test string", 35, "test symbol")
 			})
@@ -79,8 +78,9 @@ describe("ParseUnaryTree", function(){
 					expect(symbol).toEqual("test symbol")
 					return found("    \n     \t    ", "test right string", 181)
 				})
-				ParseTree.and.callFake(function(str){
+				ParseTree.and.callFake(function(str, starts){
 					expect(str).toEqual("test right string")
+                    expect(starts).toEqual(181)
 					return "test right expression"
 				})
 				result = ParseUnaryTree("test string", 35, "test symbol")
@@ -89,7 +89,9 @@ describe("ParseUnaryTree", function(){
 			it("returns an object combining the expressions", function(){
 				expect(result).toEqual({
 					unary: "test symbol",
-					operand: "test right expression"
+					operand: "test right expression",
+                    starts: 50,
+                    ends: 61
 				})
 			})
 		})

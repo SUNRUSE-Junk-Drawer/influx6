@@ -201,6 +201,7 @@ UnaryOperatorPrecedence = ["!", "-"]
 BinaryOperatorPrecedence = ["?", ":", "&", "|", ">", "<", ">=", "<=", "==", "!=", ",", "+", "-", "*"]
 
 function ParseTree(str, starts){
+    starts += str.search(/\S/)
 	str = str.trim()
 	
 	function FindAndReturn(arr, cb){
@@ -219,46 +220,56 @@ function ParseTree(str, starts){
 		|| null
 }
 
-function ParseBooleanTree(str){
+function ParseBooleanTree(str, starts){
 	switch(str){
 		case "true": return {
 			constant: "boolean",
-			value: true
+			value: true,
+            starts: starts,
+            ends: starts + str.length
 		}
 		case "false": return {
 			constant: "boolean",
-			value: false			
+			value: false,
+            starts: starts,
+            ends: starts + str.length		
 		}
 		default: return null
 	}
 }
 
-function ParseIntegerTree(str){
+function ParseIntegerTree(str, starts){
 	if (!/^\d+$/.test(str)) return null
 	return {
 		constant: "integer",
-		value: parseInt(str)
+		value: parseInt(str),
+        starts: starts,
+        ends: starts + str.length
 	}
 }
 
-function ParseFloatTree(str){
+function ParseFloatTree(str, starts){
 	if (!/^\d+\.\d+$|^\d+\.$|^\.\d+$/.test(str)) return null
 	return {
 		constant: "float",
-		value: parseFloat(str)
+		value: parseFloat(str),
+        starts: starts,
+        ends: starts + str.length
 	}
 }
 
 function ParseBinaryTree(str, starts, symbol){
 	return FindSplittingSymbol(str, starts, symbol, function(lstr, rstr, rstrStarts){
-		var ltree = ParseTree(lstr)
+		var ltree = ParseTree(lstr, starts)
 		if (!ltree) return null
-		var rtree = ParseTree(rstr)
+		var rtree = ParseTree(rstr, rstrStarts)
 		if (!rtree) return null
 		return {
 			binary: symbol,
 			left: ltree,
-			right: rtree
+			right: rtree,
+            starts: starts + lstr.length,
+            ends: starts + lstr.length + symbol.length
 		}
 	}, function(){
 		return null
@@ -268,11 +279,13 @@ function ParseBinaryTree(str, starts, symbol){
 function ParseUnaryTree(str, starts, symbol){
 	return FindSplittingSymbol(str, starts, symbol, function(lstr, rstr, rstrStarts){
 		if (lstr.trim() != "") return null
-		var rtree = ParseTree(rstr)
+		var rtree = ParseTree(rstr, rstrStarts)
 		if (!rtree) return null
 		return {
 			unary: symbol,
-			operand: rtree
+			operand: rtree,
+            starts: starts + lstr.length,
+            ends: starts + lstr.length + symbol.length
 		}
 	}, function(){
 		return null

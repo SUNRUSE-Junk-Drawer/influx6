@@ -36,10 +36,14 @@ describe("ParseBinaryTree", function(){
 					expect(symbol).toEqual("test symbol")
 					return found("test left string", "test right string", 182)
 				})
-				ParseTree.and.callFake(function(str){
+				ParseTree.and.callFake(function(str, starts){
 					switch(str){
-						case "test left string": return null
-						case "test right string": return "test right expression"
+						case "test left string": 
+                            expect(starts).toEqual(35)
+                            return null
+						case "test right string": 
+                            expect(starts).toEqual(182)
+                            return "test right expression"
 						default: fail("unexpected ParseTree of \"" + str + "\"")
 					}
 				})
@@ -59,10 +63,14 @@ describe("ParseBinaryTree", function(){
 					expect(symbol).toEqual("test symbol")
 					return found("test left string", "test right string", 182)
 				})
-				ParseTree.and.callFake(function(str){
+				ParseTree.and.callFake(function(str, starts){
 					switch(str){
-						case "test left string": return "test left expression"
-						case "test right string": return null
+						case "test left string": 
+                            expect(starts).toEqual(35)
+                            return "test left expression"
+						case "test right string": 
+                            expect(starts).toEqual(182)
+                            return null
 						default: fail("unexpected ParseTree of \"" + str + "\"")
 					}
 				})
@@ -82,10 +90,14 @@ describe("ParseBinaryTree", function(){
 					expect(symbol).toEqual("test symbol")
 					return found("test left string", "test right string", 182)
 				})
-				ParseTree.and.callFake(function(str){
+				ParseTree.and.callFake(function(str, starts){
 					switch(str){
-						case "test left string": return "test left expression"
-						case "test right string": return "test right expression"
+						case "test left string": 
+                            expect(starts).toEqual(35)
+                            return "test left expression"
+						case "test right string": 
+                            expect(starts).toEqual(182)
+                            return "test right expression"
 						default: fail("unexpected ParseTree of \"" + str + "\"")
 					}
 				})
@@ -96,7 +108,9 @@ describe("ParseBinaryTree", function(){
 				expect(result).toEqual({
 					binary: "test symbol",
 					left: "test left expression",
-					right: "test right expression"
+					right: "test right expression",
+                    starts: 51,
+                    ends: 62
 				})
 			})
 		})

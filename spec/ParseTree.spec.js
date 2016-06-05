@@ -23,28 +23,28 @@ describe("ParseTree", function(){
 		ParseBooleanTree = jasmine.createSpy("ParseBooleanTree")
 		ParseBooleanTree.and.callFake(function(str, starts){
 			expect(str).toEqual("test string")
-            expect(starts).toEqual(35)
+            expect(starts).toEqual(45)
 			return booleanResult
 		})
 		src.__set__("ParseBooleanTree", ParseBooleanTree)
 		ParseIntegerTree = jasmine.createSpy("ParseIntegerTree")
 		ParseIntegerTree.and.callFake(function(str, starts){
 			expect(str).toEqual("test string")
-            expect(starts).toEqual(35)
+            expect(starts).toEqual(45)
 			return integerResult
 		})
 		src.__set__("ParseIntegerTree", ParseIntegerTree)
 		ParseFloatTree = jasmine.createSpy("ParseFloatTree")
 		ParseFloatTree.and.callFake(function(str, starts){
 			expect(str).toEqual("test string")
-            expect(starts).toEqual(35)
+            expect(starts).toEqual(45)
 			return floatResult
 		})
 		src.__set__("ParseFloatTree", ParseFloatTree)
 		ParseBinaryTree = jasmine.createSpy("ParseBinaryTree")
 		ParseBinaryTree.and.callFake(function(str, starts, symbol){
 			expect(str).toEqual("test string")
-            expect(starts).toEqual(35)
+            expect(starts).toEqual(45)
 			expect(binaryResults[symbol]).not.toBeUndefined("Unexpected binary symbol \"" + symbol + "\"")
 			return binaryResults[symbol]
 		})
@@ -52,7 +52,7 @@ describe("ParseTree", function(){
 		ParseUnaryTree = jasmine.createSpy("ParseUnaryTree")
 		ParseUnaryTree.and.callFake(function(str, starts, symbol){
 			expect(str).toEqual("test string")
-            expect(starts).toEqual(35)
+            expect(starts).toEqual(45)
 			expect(unaryResults[symbol]).not.toBeUndefined("Unexpected unary symbol \"" + symbol + "\"")
 			return unaryResults[symbol]
 		})
