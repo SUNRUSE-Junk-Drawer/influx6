@@ -21,33 +21,38 @@ describe("ParseTree", function(){
 		}
 		ParseTree = src.__get__("ParseTree")
 		ParseBooleanTree = jasmine.createSpy("ParseBooleanTree")
-		ParseBooleanTree.and.callFake(function(str){
+		ParseBooleanTree.and.callFake(function(str, starts){
 			expect(str).toEqual("test string")
+            expect(starts).toEqual(35)
 			return booleanResult
 		})
 		src.__set__("ParseBooleanTree", ParseBooleanTree)
 		ParseIntegerTree = jasmine.createSpy("ParseIntegerTree")
-		ParseIntegerTree.and.callFake(function(str){
+		ParseIntegerTree.and.callFake(function(str, starts){
 			expect(str).toEqual("test string")
+            expect(starts).toEqual(35)
 			return integerResult
 		})
 		src.__set__("ParseIntegerTree", ParseIntegerTree)
 		ParseFloatTree = jasmine.createSpy("ParseFloatTree")
-		ParseFloatTree.and.callFake(function(str){
+		ParseFloatTree.and.callFake(function(str, starts){
 			expect(str).toEqual("test string")
+            expect(starts).toEqual(35)
 			return floatResult
 		})
 		src.__set__("ParseFloatTree", ParseFloatTree)
 		ParseBinaryTree = jasmine.createSpy("ParseBinaryTree")
-		ParseBinaryTree.and.callFake(function(str, symbol){
+		ParseBinaryTree.and.callFake(function(str, starts, symbol){
 			expect(str).toEqual("test string")
+            expect(starts).toEqual(35)
 			expect(binaryResults[symbol]).not.toBeUndefined("Unexpected binary symbol \"" + symbol + "\"")
 			return binaryResults[symbol]
 		})
 		src.__set__("ParseBinaryTree", ParseBinaryTree)
 		ParseUnaryTree = jasmine.createSpy("ParseUnaryTree")
-		ParseUnaryTree.and.callFake(function(str, symbol){
+		ParseUnaryTree.and.callFake(function(str, starts, symbol){
 			expect(str).toEqual("test string")
+            expect(starts).toEqual(35)
 			expect(unaryResults[symbol]).not.toBeUndefined("Unexpected unary symbol \"" + symbol + "\"")
 			return unaryResults[symbol]
 		})
@@ -58,7 +63,7 @@ describe("ParseTree", function(){
 	
 	describe("when no tree type can be matched", function(){
 		beforeEach(function(){
-			result = ParseTree("   \t   \n  test string   \n    \t")
+			result = ParseTree("   \t   \n  test string   \n    \t", 35)
 		})
 	
 		it("returns null", function(){
@@ -74,7 +79,7 @@ describe("ParseTree", function(){
 	describe("when the tree is a valid boolean literal", function(){
 		beforeEach(function(){
 			booleanResult = "test boolean expression"
-			result = ParseTree("   \t   \n  test string   \n    \t")
+			result = ParseTree("   \t   \n  test string   \n    \t", 35)
 		})
 	
 		it("returns the generated expression", function(){
@@ -90,7 +95,7 @@ describe("ParseTree", function(){
 	describe("when the tree is a valid integer literal", function(){
 		beforeEach(function(){
 			integerResult = "test integer expression"
-			result = ParseTree("   \t   \n  test string   \n    \t")
+			result = ParseTree("   \t   \n  test string   \n    \t", 35)
 		})
 	
 		it("returns the generated expression", function(){
@@ -106,7 +111,7 @@ describe("ParseTree", function(){
 	describe("when the tree is a valid float literal", function(){
 		beforeEach(function(){
 			floatResult = "test float expression"
-			result = ParseTree("   \t   \n  test string   \n    \t")
+			result = ParseTree("   \t   \n  test string   \n    \t", 35)
 		})
 	
 		it("returns the generated expression", function(){
@@ -122,7 +127,7 @@ describe("ParseTree", function(){
 	describe("when the tree is a valid binary operator", function(){
 		beforeEach(function(){
 			binaryResults["testBinaryB"] = "test binary expression b"
-			result = ParseTree("   \t   \n  test string   \n    \t")
+			result = ParseTree("   \t   \n  test string   \n    \t", 35)
 		})
 	
 		it("returns the generated expression", function(){
@@ -138,7 +143,7 @@ describe("ParseTree", function(){
 	describe("when the tree is a valid unary operator", function(){
 		beforeEach(function(){
 			unaryResults["testUnaryB"] = "test unary expression b"
-			result = ParseTree("   \t   \n  test string   \n    \t")
+			result = ParseTree("   \t   \n  test string   \n    \t", 35)
 		})
 	
 		it("returns the generated expression", function(){
@@ -155,7 +160,7 @@ describe("ParseTree", function(){
 		beforeEach(function(){
 			binaryResults["testBinaryC"] = "test binary expression c"
 			unaryResults["testUnaryB"] = "test unary expression b"
-			result = ParseTree("   \t   \n  test string   \n    \t")
+			result = ParseTree("   \t   \n  test string   \n    \t", 35)
 		})
 	
 		it("returns the generated expression for the binary operator", function(){
@@ -172,7 +177,7 @@ describe("ParseTree", function(){
 		beforeEach(function(){
 			binaryResults["testBinaryB"] = "test binary expression b"
 			binaryResults["testBinaryC"] = "test binary expression c"
-			result = ParseTree("   \t   \n  test string   \n    \t")
+			result = ParseTree("   \t   \n  test string   \n    \t", 35)
 		})
 	
 		it("returns the generated expression for the first binary operator", function(){

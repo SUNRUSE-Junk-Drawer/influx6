@@ -10,7 +10,7 @@ describe("FindSplittingSymbol", function(){
 	
 	describe("when the string does not contain the symbol", function(){
 		beforeEach(function(){
-			result = FindSplittingSymbol("onetwothreefourfivesixseveneight", "twenty", found, notFound)
+			result = FindSplittingSymbol("onetwothreefourfivesixseveneight", 35, "twenty", found, notFound)
 		})
 		
 		it("does not call the found callback", function(){
@@ -28,7 +28,7 @@ describe("FindSplittingSymbol", function(){
 	
 	describe("when the string contains the symbol once", function(){
 		beforeEach(function(){
-			result = FindSplittingSymbol("onetwotwentythreefourfivesixseveneight", "twenty", found, notFound)
+			result = FindSplittingSymbol("onetwotwentythreefourfivesixseveneight", 35, "twenty", found, notFound)
 		})
 		
 		it("calls the found callback once", function(){
@@ -36,7 +36,7 @@ describe("FindSplittingSymbol", function(){
 		})
 		
 		it("passes the left and right sides of the symbol to the callback", function(){
-			expect(found).toHaveBeenCalledWith("onetwo", "threefourfivesixseveneight")
+			expect(found).toHaveBeenCalledWith("onetwo", "threefourfivesixseveneight", 47)
 		})
 		
 		it("does not call the not found callback", function(){
@@ -50,7 +50,7 @@ describe("FindSplittingSymbol", function(){
 	
 	describe("when the string contains the symbol multiple times", function(){
 		beforeEach(function(){
-			result = FindSplittingSymbol("onetwotwentythreefourfivetwentysixseventwentyeight", "twenty", found, notFound)
+			result = FindSplittingSymbol("onetwotwentythreefourfivetwentysixseventwentyeight", 35, "twenty", found, notFound)
 		})
 		
 		it("calls the found callback once", function(){
@@ -58,7 +58,7 @@ describe("FindSplittingSymbol", function(){
 		})
 		
 		it("passes the left and right sides of the first instance of the symbol to the callback", function(){
-			expect(found).toHaveBeenCalledWith("onetwo", "threefourfivetwentysixseventwentyeight")
+			expect(found).toHaveBeenCalledWith("onetwo", "threefourfivetwentysixseventwentyeight", 47)
 		})
 		
 		it("does not call the not found callback", function(){

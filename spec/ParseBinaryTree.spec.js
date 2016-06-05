@@ -13,12 +13,13 @@ describe("ParseBinaryTree", function(){
 	
 	describe("when no symbols are present", function(){
 		beforeEach(function(){
-			FindSplittingSymbol.and.callFake(function(str, symbol, found, notFound){
+			FindSplittingSymbol.and.callFake(function(str, starts, symbol, found, notFound){
 				expect(str).toEqual("test string")
+                expect(starts).toEqual(35)
 				expect(symbol).toEqual("test symbol")
 				return notFound()
 			})
-			result = ParseBinaryTree("test string", "test symbol")
+			result = ParseBinaryTree("test string", 35, "test symbol")
 		})
 	
 		it("returns null", function(){
@@ -29,10 +30,11 @@ describe("ParseBinaryTree", function(){
 	describe("when a symbol is present", function(){
 		describe("but the left side is not a valid expression", function(){		
 			beforeEach(function(){
-				FindSplittingSymbol.and.callFake(function(str, symbol, found, notFound){
+				FindSplittingSymbol.and.callFake(function(str, starts, symbol, found, notFound){
 					expect(str).toEqual("test string")
+                    expect(starts).toEqual(35)
 					expect(symbol).toEqual("test symbol")
-					return found("test left string", "test right string")
+					return found("test left string", "test right string", 182)
 				})
 				ParseTree.and.callFake(function(str){
 					switch(str){
@@ -41,7 +43,7 @@ describe("ParseBinaryTree", function(){
 						default: fail("unexpected ParseTree of \"" + str + "\"")
 					}
 				})
-				result = ParseBinaryTree("test string", "test symbol")
+				result = ParseBinaryTree("test string", 35, "test symbol")
 			})
 		
 			it("returns null", function(){
@@ -51,10 +53,11 @@ describe("ParseBinaryTree", function(){
 		
 		describe("but the right side is not a valid expression", function(){
 			beforeEach(function(){
-				FindSplittingSymbol.and.callFake(function(str, symbol, found, notFound){
+				FindSplittingSymbol.and.callFake(function(str, starts, symbol, found, notFound){
 					expect(str).toEqual("test string")
+                    expect(starts).toEqual(35)
 					expect(symbol).toEqual("test symbol")
-					return found("test left string", "test right string")
+					return found("test left string", "test right string", 182)
 				})
 				ParseTree.and.callFake(function(str){
 					switch(str){
@@ -63,7 +66,7 @@ describe("ParseBinaryTree", function(){
 						default: fail("unexpected ParseTree of \"" + str + "\"")
 					}
 				})
-				result = ParseBinaryTree("test string", "test symbol")
+				result = ParseBinaryTree("test string", 35, "test symbol")
 			})
 			
 			it("returns null", function(){
@@ -73,10 +76,11 @@ describe("ParseBinaryTree", function(){
 		
 		describe("and the left and right sides are valid expressions", function(){
 			beforeEach(function(){
-				FindSplittingSymbol.and.callFake(function(str, symbol, found, notFound){
+				FindSplittingSymbol.and.callFake(function(str, starts, symbol, found, notFound){
 					expect(str).toEqual("test string")
+                    expect(starts).toEqual(35)
 					expect(symbol).toEqual("test symbol")
-					return found("test left string", "test right string")
+					return found("test left string", "test right string", 182)
 				})
 				ParseTree.and.callFake(function(str){
 					switch(str){
@@ -85,7 +89,7 @@ describe("ParseBinaryTree", function(){
 						default: fail("unexpected ParseTree of \"" + str + "\"")
 					}
 				})
-				result = ParseBinaryTree("test string", "test symbol")
+				result = ParseBinaryTree("test string", 35, "test symbol")
 			})
 			
 			it("returns an object combining the expressions", function(){
