@@ -315,15 +315,17 @@ UnaryOperatorFunctions = {
 }
 
 function ParseExpression(tree) {
-	if (tree.binary) return ParseFunctionExpression([tree.left, tree.right], BinaryOperatorFunctions[tree.binary])
-	if (tree.unary) return ParseFunctionExpression([tree.operand], UnaryOperatorFunctions[tree.unary])
+	if (tree.binary) return ParseFunctionExpression([tree.left, tree.right], BinaryOperatorFunctions[tree.binary], tree.starts, tree.ends)
+	if (tree.unary) return ParseFunctionExpression([tree.operand], UnaryOperatorFunctions[tree.unary], tree.starts, tree.ends)
 	return tree
 }
 
-function ParseFunctionExpression(operandTrees, functionNames) {
+function ParseFunctionExpression(operandTrees, functionNames, starts, ends) {
 	var parsedExpressions = operandTrees.map(ParseExpression)
 	if (parsedExpressions.some(function(a){return a == null})) throw {
-		reason: "invalidExpression"
+		reason: "invalidExpression",
+        starts: starts,
+        ends: ends
 	}
 	var types = parsedExpressions.map(Type)
 	var func = functionNames.find(function(name){
@@ -333,11 +335,15 @@ function ParseFunctionExpression(operandTrees, functionNames) {
 		return true
 	})
 	if (func == null) throw {
-		reason: "noMatchingFunction"
+		reason: "noMatchingFunction",
+        starts: starts,
+        ends: ends
 	}
 	return {
 		call: func,
-		with: parsedExpressions
+		with: parsedExpressions,
+        starts: starts,
+        ends: ends
 	}
 }
 

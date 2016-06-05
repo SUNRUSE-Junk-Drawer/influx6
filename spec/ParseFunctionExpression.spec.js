@@ -18,24 +18,24 @@ describe("ParseFunctionExpression", function(){
             })
         })
         it("does not modify the argument trees", function(){
-            try { ParseFunctionExpression(argumentTrees, functionNames) } catch(ex) {}
+            try { ParseFunctionExpression(argumentTrees, functionNames, 35, 181) } catch(ex) {}
             expect(argumentTrees).toEqual(config.argumentTrees)
         })
         it("does not modify the function names", function(){
-            try { ParseFunctionExpression(argumentTrees, functionNames) } catch(ex) {}
+            try { ParseFunctionExpression(argumentTrees, functionNames, 35, 181) } catch(ex) {}
             expect(functionNames).toEqual(config.functionNames)
         })
         it("does not modify the functions", function(){
-            try { ParseFunctionExpression(argumentTrees, functionNames) } catch(ex) {}
+            try { ParseFunctionExpression(argumentTrees, functionNames, 35, 181) } catch(ex) {}
             expect(Functions).toEqual(config.functions)
         })
         if (config.throws) {
             it("throws the expected exception", function(){
-                expect(function() { ParseFunctionExpression(argumentTrees, functionNames) }).toThrow(config.throws)
+                expect(function() { ParseFunctionExpression(argumentTrees, functionNames, 35, 181) }).toThrow(config.throws)
             })
         } else {
             it("returns the expected result", function(){
-                expect(ParseFunctionExpression(argumentTrees, functionNames)).toEqual(config.outputs)
+                expect(ParseFunctionExpression(argumentTrees, functionNames, 35, 181)).toEqual(config.outputs)
             })
         }
     }
@@ -61,7 +61,9 @@ describe("ParseFunctionExpression", function(){
                 testExpressionB: "test type b"
             },
             throws: {
-                reason: "noMatchingFunction"
+                reason: "noMatchingFunction",
+                starts: 35,
+                ends: 181
             }
         })
     })
@@ -93,7 +95,9 @@ describe("ParseFunctionExpression", function(){
                 testExpressionB: "test type b"
             },
             throws: {
-                reason: "invalidExpression"
+                reason: "invalidExpression",
+                starts: 35,
+                ends: 181
             }
         })
     })
@@ -125,7 +129,9 @@ describe("ParseFunctionExpression", function(){
                 testExpressionB: "test type b"
             },
             throws: {
-                reason: "noMatchingFunction"
+                reason: "noMatchingFunction",
+                starts: 35,
+                ends: 181
             }
         })
     })
@@ -157,7 +163,9 @@ describe("ParseFunctionExpression", function(){
                 testExpressionB: "test type b"
             },
             throws: {
-                reason: "noMatchingFunction"
+                reason: "noMatchingFunction",
+                starts: 35,
+                ends: 181
             }
         })
     })
@@ -190,7 +198,9 @@ describe("ParseFunctionExpression", function(){
             },
             outputs: {
                 call: "rightNumberOfArgumentsB",
-                with: ["testExpressionA", "testExpressionB"]
+                with: ["testExpressionA", "testExpressionB"],
+                starts: 35,
+                ends: 181
             }
         })
     })

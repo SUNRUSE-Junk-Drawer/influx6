@@ -21,7 +21,9 @@ describe("parseExpression", function(){
 		beforeEach(function(){
 			originalInput = {
 				constant: "test constant type",
-				value: "test constant value"
+				value: "test constant value",
+                starts: 35,
+                ends: 181
 			}
 			input = JSON.parse(JSON.stringify(originalInput))
 			result = ParseExpression(input)
@@ -42,12 +44,16 @@ describe("parseExpression", function(){
 			originalInput = {
 				binary: "testBinaryOperatorB",
                 left: "test left operand",
-                right: "test right operand"
+                right: "test right operand",
+                starts: 35,
+                ends: 181
 			}
 			input = JSON.parse(JSON.stringify(originalInput))
-            ParseFunctionExpression.and.callFake(function(operandTrees, functionNames){
+            ParseFunctionExpression.and.callFake(function(operandTrees, functionNames, starts, ends){
                 expect(operandTrees).toEqual(["test left operand", "test right operand"])
                 expect(functionNames).toEqual("test binary function names b")
+                expect(starts).toEqual(35)
+                expect(ends).toEqual(181)
                 return "test parsed function"
             })
 			result = ParseExpression(input)
@@ -67,12 +73,16 @@ describe("parseExpression", function(){
 		beforeEach(function(){
 			originalInput = {
 				unary: "testUnaryOperatorB",
-				operand: "test operand"
+				operand: "test operand",
+                starts: 35,
+                ends: 181
 			}
 			input = JSON.parse(JSON.stringify(originalInput))
-            ParseFunctionExpression.and.callFake(function(operandTrees, functionNames){
+            ParseFunctionExpression.and.callFake(function(operandTrees, functionNames, starts, ends){
                 expect(operandTrees).toEqual(["test operand"])
                 expect(functionNames).toEqual("test unary function names b")
+                expect(starts).toEqual(35)
+                expect(ends).toEqual(181)
                 return "test parsed function"
             })
 			result = ParseExpression(input)
